@@ -1,0 +1,134 @@
+﻿@model KlinikaVeterinareTI2.ViewModels.EditUserViewModel
+@using KlinikaVeterinareTI2.Utilities
+@{
+    ViewData["Title"] = "Modifiko Perdoruesin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow mb-4 border-bottom-primary">
+        <div class="card-header py-3 d-flex align-items-center">
+            <a asp-action="Index" asp-controller="Users" class="btn btn-primary btn-sm btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+            </a>
+            <h6 class="m-0 ml-2 font-weight-bold text-primary">@ViewData["Title"]</h6>
+        </div>
+
+        <div class="card-body">
+            <form method="post" class="mt-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                @*<div class="form-group row">
+                        <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Id" disabled class="form-control">
+                        </div>
+                    </div>*@
+                <div class="form-group row">
+                    <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="UserName" class="form-control">
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="FirstName" class="form-control">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="LastName" class="form-control">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Birthday" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="Birthday" class="form-control">
+                        <span asp-validation-for="Birthday" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Gender" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <select asp-for="Gender" class="form-control">
+                            <option selected>Zgjedh...</option>
+                            <option value="@StaticDetails.Male">@StaticDetails.Male</option>
+                            <option value="@StaticDetails.Female">@StaticDetails.Female</option>
+                            <option value="@StaticDetails.Other">@StaticDetails.Other</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="PhoneNo" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="PhoneNo" class="form-control">
+                        <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-save"></i>
+                        </span>
+                        <span class="text">Ruaj</span>
+                    </button>
+                    <a asp-action="Index" asp-controller="Users" class="btn btn-danger btn-sm btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span class="text">Anulo</span>
+                    </a>
+                </div>
+
+                <hr />
+                <div class="card shadow my-4 border-left-primary">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">Rolet e perdoruesit</h6>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Roles.Any())
+                        {
+                            foreach (var role in Model.Roles)
+                            {
+                                <h5 class="card-title">@role</h5>
+                            }
+                        }
+                        else
+                        {
+                            <h5 class="card-title">Nuk ka per momentin</h5>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="ManageUserRoles" asp-route-userId="@Model.Id" class="btn btn-primary btn-sm btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-cog"></i>
+                            </span>
+                            <span class="text">Shto/Largo Rol</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

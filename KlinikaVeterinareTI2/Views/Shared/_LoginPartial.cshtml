@@ -1,0 +1,10 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@if (!User.Identity.IsAuthenticated)
+{
+    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login">@localizer["lblLogin"]</a> 
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">@localizer["lblRegister"]</a>
+} 
+@*else
+                                { <a class="collapse-item" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                                    <a class="collapse-item" asp-area="Identity" asp-page="/Account/Login">Login</a>}*@

@@ -1,0 +1,124 @@
+﻿@model IEnumerable<IdentityRole>
+
+@inject IAuthorizationService authorizationService
+
+@{
+    ViewData["Title"] = "Lista e Roleve";
+}
+
+<div class="container-fluid mt-5">
+
+    @if (TempData["alert"] != null)
+    {
+        <div class="alert alert-@TempData["aType"] alert-sm text-center container topalert mt-3" role="alert">
+            @TempData["alert"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="card shadow mb-4 border-bottom-primary">
+        <div class="card-header py-3 d-flex align-items-center">
+            <a asp-action="CreateRole" class="btn btn-primary btn-sm btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus-square"></i>
+                </span>
+                <span class="text">Shto</span>
+            </a>
+            <h6 class="m-0 ml-2 font-weight-bold text-primary">@ViewData["Title"]</h6>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" id="tblRoles" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <a asp-action="EditRole" asp-route-id="@item.Id" class="btn btn-outline-warning btn-circle">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-circle">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('#tblRoles').DataTable({
+                'language': {
+                    "sEmptyTable": "Nuk ka asnjë të dhënë në tabele",
+                    "sInfo": "Duke treguar _START_ deri _END_ prej _TOTAL_ reshtave",
+                    "sInfoEmpty": "Duke treguar 0 deri 0 prej 0 reshtave",
+                    "sInfoFiltered": "(të filtruara nga gjithësej _MAX_  reshtave)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ",",
+                    "sLengthMenu": "Shiko _MENU_ reshta",
+                    "sLoadingRecords": "Duke punuar...",
+                    "sProcessing": "Duke procesuar...",
+                    "sSearch": "Kërkoni:",
+                    "sZeroRecords": "Asnjë e dhënë nuk u gjet",
+                    "oPaginate": {
+                        "sFirst": "E para",
+                        "sLast": "E Fundit",
+                        "sNext": "Tjetra",
+                        "sPrevious": "E Kaluara"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": aktivizo për të sortuar kolumnin me vlera në ngritje",
+                        "sSortDescending": ": aktivizo për të sortuar kolumnin me vlera në zbritje"
+                    }
+                }
+            });
+        });
+    </script>
+
+    @*<script>
+            $(function () {
+                function confirmDelete(uniqueId, isDeleteClicked) {
+                    var deleteSpan = 'deleteSpan_' + uniqueId;
+                    var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+
+                    if (isDeleteClicked) {
+                        $('#' + deleteSpan).hide();
+                        $('#' + confirmDeleteSpan).show();
+                    } else {
+                        $('#' + deleteSpan).show();
+                        $('#' + confirmDeleteSpan).hide();
+                    }
+                }
+            });
+        </script>*@
+}
+

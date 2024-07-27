@@ -1,0 +1,110 @@
+﻿@model IEnumerable<KlinikaVeterinareTI2.Models.Vaccine>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{ 
+    ViewData["Title"] = localizer["lblVaccines"]; 
+}
+
+<div class="container-fluid mt-5">
+
+    @if (TempData["alert"] != null)
+    {
+        <div class="alert alert-@TempData["aType"] alert-sm text-center container topalert mt-3" role="alert">
+            @TempData["alert"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="card shadow mb-4 border-bottom-primary">
+        <div class="card-header py-3 d-flex align-items-center">
+            <a asp-action="Upsert" class="btn btn-primary btn-sm btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus-square"></i>
+                </span>
+                <span class="text">@localizer["btnAdd"]</span>
+            </a>
+            <h6 class="m-0 ml-2 font-weight-bold text-primary">@ViewData["Title"]</h6>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" id="tblVaccines" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @localizer["lblSerialNo"]
+                                @*@Html.DisplayNameFor(model => model.SerialNo)*@
+                            </th>
+                            <th>
+                                @localizer["lblName"]
+                                @*@Html.DisplayNameFor(model => model.Name)*@
+                            </th>
+                            <th>
+                                @localizer["lblDescription"]
+                                @*@Html.DisplayNameFor(model => model.Description)*@
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SerialNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    <a asp-action="Upsert" asp-route-id="@item.Id" class="btn btn-outline-warning btn-circle">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-circle">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                         }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tblVaccines').DataTable({
+                'language': {
+                    "sEmptyTable": "@localizer["sEmptyTable"]",
+                    "sInfo": "@localizer["sInfo"]",
+                    "sInfoEmpty": "@localizer["sInfoEmpty"]",
+                    "sInfoFiltered": "(@localizer["sInfoFiltered"])",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ",",
+                    "sLengthMenu": "@localizer["sLengthMenu"]",
+                    "sLoadingRecords": "@localizer["sLoadingRecords"]",
+                    "sProcessing": "@localizer["sProcessing"]",
+                    "sSearch": "@localizer["sSearch"]",
+                    "sZeroRecords": "@localizer["sZeroRecords"]",
+                    "oPaginate": {
+                        "sFirst": "@localizer["sFirst"]",
+                        "sLast": "@localizer["sLast"]",
+                        "sNext": "@localizer["sNext"]",
+                        "sPrevious": "@localizer["sPrevious"]"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": @localizer["sSortAscending"]",
+                        "sSortDescending": ": @localizer["sSortDescending"]"
+                    }
+                }
+            });
+        });
+    </script>
+}

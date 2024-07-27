@@ -1,0 +1,43 @@
+﻿@model KlinikaVeterinareTI2.Models.Vaccine
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    ViewData["Title"] = localizer["lblDeleteVaccine"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-5">
+    <div class="card shadow mb-4 border-bottom-primary">
+        <div class="card-header py-3 d-flex align-items-center">
+            <a asp-action="Index" class="btn btn-primary btn-sm btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+            </a>
+            <h6 class="m-0 ml-2 font-weight-bold text-primary">@ViewData["Title"]</h6>
+        </div>
+
+        <div class="card-body">
+            <div class="form-group col-md-12 text-center">
+                <div class="col-12 text-center">
+                    <h3>@localizer["lblDeleteMessage"] @Model.SerialNo?</h3>
+                </div>
+                <hr />
+                <form asp-action="DeleteVaccine" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-danger btn-sm btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text">@localizer["btnDelete"]</span>
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary btn-sm btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span class="text">@localizer["btnCancel"]</span>
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

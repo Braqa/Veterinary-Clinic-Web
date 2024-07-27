@@ -1,0 +1,219 @@
+a {
+  transition: all .35s;
+}
+
+a:hover, a:focus {
+    color: orange;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+section {
+  padding: 100px 0;
+}
+
+section h2 {
+  font-size: 50px;
+}
+
+header.masthead {
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    color: white;
+    background: url("../images/paw4.png");
+    /*background: linear-gradient(to left, #4e73df, #224abe));*/
+    /*background-size: inherit;*/
+    /*background-repeat: repeat-x repeat-y;*/
+    /*background-size: inherit;*/
+    /*linear-gradient(to left, #4e73df, #224abe)*/
+}
+
+header.masthead .header-content {
+  max-width: 700px;
+  margin-bottom: 100px;
+  text-align: center;
+}
+
+header.masthead .header-content h1 {
+  font-size: 60px;
+
+}
+
+/*header.masthead .device-container {
+  max-width: 325px;
+  margin-right: auto;
+  margin-left: auto;
+}*/
+
+/*header.masthead .device-container .screen img {
+  border-radius: 3px;
+}*/
+
+@media (min-width: 992px) {
+  header.masthead {
+    /*height: 100vh;*/
+    /*min-height: 775px;*/
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  header.masthead .header-content {
+    margin-bottom: 0;
+    text-align: left;
+  }
+  header.masthead .header-content h1 {
+    font-size: 70px;
+    font-family: 'Courgette', cursive;
+    color: black;
+    font-weight:bold;
+    
+  }
+  /*header.masthead .device-container {
+    max-width: 325px;
+  }*/
+}
+
+section.features .section-heading {
+  margin-bottom: 100px;
+}
+
+section.features .section-heading h2 {
+  margin-top: 0;
+}
+
+section.features .section-heading p {
+  margin-bottom: 0;
+}
+
+/*.fas .fa-syringe {
+    color: black;
+}*/
+/*section.features .device-container,
+section.features .feature-item {
+  max-width: 325px;
+  margin: 0 auto;
+}*/
+/*section.features .device-container {
+  margin-bottom: 100px;
+}
+
+@media (min-width: 992px) {
+  section.features .device-container {
+    margin-bottom: 0;
+  }
+}*/
+section.features {
+    background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+}
+
+section.features .feature-item {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    
+}
+
+section.features .feature-item h3 {
+  font-size: 30px;
+}
+
+section.features .feature-item i {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 15px;
+  /*background: linear-gradient(to left, #7b4397, #dc2430);*/
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+section.cta {
+    position: relative;
+    padding: 100px 0;
+    background-image: linear-gradient(to left, #4e73df, #224abe);
+    background-repeat: no-repeat;
+    /*background-image: linear-gradient(0deg, #f6d365 0%, #fda085 100%);*/
+    /*background-image: linear-gradient(190deg, #4facfe 0%, #00f2fe 100%);*/
+    background-image: linear-gradient(180deg, #00c6fb 0%, #005bea 100%);
+}
+
+.dog_vet_fun {
+    position: absolute;
+    padding-left: 200px;
+    padding-bottom: 100px;
+    
+}
+
+section.cta .cta-content {
+    position: relative;
+    z-index: 1;
+}
+
+section.cta .cta-content h2 {
+  font-size: 50px;
+  max-width: 450px;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  section.cta .cta-content h2 {
+    font-size: 80px;
+  }
+}
+
+section.cta .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background-color: rgba(0, 0, 0, 0.5);*/
+}
+
+
+.bg-primary {
+    background: #4facfe;
+    /*background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);*/
+    
+}
+
+/*.text-primary {
+  color: #fdcc52;
+}*/
+
+.no-gutter > [class*='col-'] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.btn-outline {
+    color: white;
+    border: 3px solid black;
+}
+
+.btn-outline:hover, .btn-outline:focus, .btn-outline:active, .btn-outline.active {
+    color: white;
+    border-color: orange;
+    background-color: orange;
+ }
+
+.btn {
+  border-radius: 300px;
+  font-family: 'Lato', 'Helvetica', 'Arial', 'sans-serif';
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.btn-xl {
+  font-size: 15px;
+  padding: 15px 45px;
+  color: black;
+  font-weight: bolder;
+}

@@ -1,0 +1,146 @@
+﻿@model KlinikaVeterinareTI2.ViewModels.AnimalViewModel
+@using KlinikaVeterinareTI2.Utilities
+
+@{
+    ViewData["Title"] = "Shto/Modifiko Kafshet";
+}
+
+
+<div class="container mt-5">
+    <div class="card shadow mb-4 border-bottom-primary">
+        <div class="card-header py-3 d-flex align-items-center">
+            <a asp-action="Index" class="btn btn-primary btn-sm btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+            </a>
+            <h6 class="m-0 ml-2 font-weight-bold text-primary">@(Model.Animal.Id == 0 ? "Shto Kafshe" : "Modifiko Kafshe")</h6>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="Upsert" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (Model.Animal.Id != 0)
+                {
+                    <input type="hidden" asp-for="Animal.Id" />
+                }
+
+                @if (Model.Animal.Id != 0)
+                {
+                    <div class="form-group">
+                        <img src="@Model.Animal.ImageUrl" class="img-thumbnail" width="300px" />
+                    </div>
+                }
+                <div class="form-group">
+                    <label asp-for="Animal.Name" class="control-label"></label>
+                    <input asp-for="Animal.Name" class="form-control form-control-sm" />
+                    <span asp-validation-for="Animal.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Animal.FamilyId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.Animal.FamilyId, Model.FamilyList, "-- Zgjedh --", new { @class = "form-control searchDropdown" })
+                    <span asp-validation-for="Animal.FamilyId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Animal.RaceId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.Animal.RaceId, Model.RaceList, "-- Zgjedh --", new { @class = "form-control searchDropdown" })
+                    <span asp-validation-for="Animal.RaceId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Animal.Birthday" class="control-label"></label>
+                    <input asp-for="Animal.Birthday" min="1950-01-01" class="form-control form-control-sm" />
+                    <span asp-validation-for="Animal.Birthday" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Animal.Gender"></label>
+                    <select asp-for="Animal.Gender" class="form-control form-control-sm">
+                        <option selected>Zgjedh...</option>
+                        <option value="@StaticDetails.Male">@StaticDetails.Male</option>
+                        <option value="@StaticDetails.Female">@StaticDetails.Female</option>
+                    </select>
+                    <span asp-validation-for="Animal.Gender" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Animal.UserId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.Animal.UserId, Model.OwnerList, "-- Zgjedh --", new { @class = "form-control searchDropdown" })
+                    <span asp-validation-for="Animal.UserId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Animal.ImageUrl"></label>
+                    <div class="custom-file">
+                        <input type="file" name="files" class="custom-file-input" id="uploadBox">
+                        <label class="custom-file-label" for="uploadBox">Zgjedh Foto</label>
+                    </div>
+                </div>
+                @*<label class="custom-file-label" for="uploadBox">Zgjedh Foto</label>*@
+                <hr />
+                <div class="form-group col-md-12 text-center">
+                    @if (Model.Animal.Id == 0)
+                    {
+                        <button type="submit" onclick="return validateInput()" class="btn btn-primary btn-sm btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span class="text">Ruaj</span>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span class="text">Ruaj</span>
+                        </button>
+                    }
+                    <a asp-action="Index" class="btn btn-danger btn-sm btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span class="text">Anulo</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Foto</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Ju lutem beni upload nje foto pastaj vazhdoni me regjistrimin e kafshes!</div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" data-dismiss="modal">Anulo</button>
+                @*<a asp-action="DeleteUser" asp-route-id="@item.Id" class="btn btn-danger">Fshij</a>*@
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $('#uploadBox').on('change', function () {
+            //get the file name
+            var fileName = $(this).val().replace('C:\\fakepath\\', " ");
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+        })
+
+        function validateInput() {
+            if (document.getElementById("uploadBox").value == "") {
+                $('#imageModal').modal('show');
+                return false;
+            }
+            return true;
+        };
+    </script>
+}

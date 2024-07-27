@@ -1,0 +1,171 @@
+﻿@model IEnumerable<KlinikaVeterinareTI2.Models.Animal>
+@using KlinikaVeterinareTI2.Utilities
+@{ ViewData["Title"] = "Kafshet"; }
+
+
+
+<div class="container-fluid mt-5">
+
+    @if (TempData["alert"] != null)
+    {
+        <div class="alert alert-@TempData["aType"] alert-sm text-center container topalert mt-3" role="alert">
+            @TempData["alert"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    @if (User.Identity.IsAuthenticated && User.IsInRole(StaticDetails.User))
+    {
+        <h2 class="text-center">Kafshet e mia</h2>
+        <hr />
+        <div class="animals row justify-content-around">
+            @foreach (var item in Model)
+            {
+                <!-- Team member -->
+                <div class="image-flip">
+                    <div class="mainflip flip-0">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" src="@item.ImageUrl" alt="card image"></p>
+                                    <h4 class="card-title">@item.Name</h4>
+                                    @*<p class="card-text">This is basic card with image on top, title, description and button.</p>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-left mt-4">
+                                    <h4 class="card-title">@item.Name</h4>
+                                    <hr />
+                                    <p>Familja: @item.Family.Name</p>
+                                    <p>Raca: @item.Race.Name</p>
+                                    <p>Ditelindja: @item.Birthday.ToShortDateString()</p>
+                                    <p>Pronari: @item.User.FullName</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="card shadow mb-4 border-bottom-primary">
+            <div class="card-header py-3 d-flex align-items-center">
+                <a asp-action="Upsert" class="btn btn-primary btn-sm btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                    <span class="text">Shto</span>
+                </a>
+                <h6 class="m-0 ml-2 font-weight-bold text-primary">@ViewData["Title"]</h6>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="tblAnimals" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ImageUrl)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Family.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Race.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Birthday)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Gender)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.User.FullName)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <img src="@item.ImageUrl" style="border-radius:25px" class="img-thumbnail" width="100px" />
+                                        @*@Html.DisplayFor(modelItem => item.ImageUrl)*@
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Family.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Race.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Birthday)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Gender)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.User.FullName)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Upsert" asp-route-id="@item.Id" class="btn btn-outline-warning btn-circle">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-circle">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tblAnimals').DataTable({
+                'language': {
+                    "sEmptyTable": "Nuk ka asnjë të dhënë në tabele",
+                    "sInfo": "Duke treguar _START_ deri _END_ prej _TOTAL_ reshtave",
+                    "sInfoEmpty": "Duke treguar 0 deri 0 prej 0 reshtave",
+                    "sInfoFiltered": "(të filtruara nga gjithësej _MAX_  reshtave)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ",",
+                    "sLengthMenu": "Shiko _MENU_ reshta",
+                    "sLoadingRecords": "Duke punuar...",
+                    "sProcessing": "Duke procesuar...",
+                    "sSearch": "Kërkoni:",
+                    "sZeroRecords": "Asnjë e dhënë nuk u gjet",
+                    "oPaginate": {
+                        "sFirst": "E para",
+                        "sLast": "E Fundit",
+                        "sNext": "Tjetra",
+                        "sPrevious": "E Kaluara"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": aktivizo për të sortuar kolumnin me vlera në ngritje",
+                        "sSortDescending": ": aktivizo për të sortuar kolumnin me vlera në zbritje"
+                    }
+                }
+            });
+        });</script>
+}

@@ -1,0 +1,305 @@
+﻿@model KlinikaVeterinareTI2.ViewModels.StatisticsViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int year = DateTime.Now.Year;
+    DateTime from = new DateTime(year, 1, 1);
+}
+
+<div class="container-fluid my-5">
+    <form method="post">
+        <div class="row d-flex justify-content-around">
+            <div class="col-md-3">
+                <label class="control-label">@localizer["lblFrom"]</label>
+                @if (TempData["fromDate"] != null)
+                {
+                    <div class="input-group">
+                        <input type="text" name="fromDate" value="@DateTime.Parse(TempData["fromDate"].ToString()).ToShortDateString()" class="form-control mydatepicker" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="input-group">
+                        <input type="text" name="fromDate" value="@from.ToShortDateString()" class="form-control mydatepicker" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                <label class="control-label">@localizer["lblTo"]</label>
+                @if (TempData["toDate"] != null)
+                {
+                    <div class="input-group">
+                        <input type="text" name="toDate" value="@DateTime.Parse(TempData["toDate"].ToString()).ToShortDateString()" class="form-control mydatepicker" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="input-group">
+                        <input type="text" name="toDate" value="@DateTime.Now.ToShortDateString()" class="form-control mydatepicker" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3 mt-3">
+                <input type="submit" class="btn btn-primary mt-3" value="@localizer["btnFilter"]" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row m-5 d-flex">
+    <div class="col-md-4">
+        <div class="card shadow mb-4 mt-5">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">@localizer["lblVaccines"]</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <canvas id="vaccines"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow mb-4 mt-5">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">@localizer["lblFamily"]</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <canvas id="animalFamily"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow mb-4 mt-5">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">@localizer["lblRace"]</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <canvas id="animalRace"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row col-md-12 m-5">
+    <div class="col-md-4 m-5">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">@localizer["lblDiagnosis"]</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <canvas id="animalDiagnosis"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 m-5">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">@localizer["lblVisitDate"]</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <canvas id="visits"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/charts/Chart.min.js"></script>
+
+    <script>
+
+        // Vaccines
+        var vaccinesCtx = document.getElementById("vaccines");
+        var vaccinesChart = new Chart(vaccinesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach(var item in Model.StatisticsNumberOfVaccines)
+                    {
+                        <text>'@item.Name',</text>
+                    }
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        @foreach(var item in Model.StatisticsNumberOfVaccines)
+                        {
+                            <text>'@item.Frequency',</text>
+                        }
+                    ],
+                    backgroundColor: [
+                        @foreach (var item in Model.StatisticsNumberOfVaccines)
+                        {
+                            <text>'#' + Math.floor(Math.random() * 16777215).toString(16),</text>
+                        }
+                    ]
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+
+
+        // Animal Race
+        var animalRaceCtx = document.getElementById("animalRace");
+        var animalRaceChart = new Chart(animalRaceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach(var item in Model.StatisticsAnimalRace)
+                    {
+                        <text>'@item.Name',</text>
+                    }
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        @foreach(var item in Model.StatisticsAnimalRace)
+                        {
+                            <text>'@item.Frequency',</text>
+                        }
+                    ],
+                    backgroundColor: [
+                        @foreach (var item in Model.StatisticsAnimalRace)
+                        {
+                            <text>'#' + Math.floor(Math.random() * 16777215).toString(16),</text>
+                        }
+                    ]
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+
+        // Animal Family
+        var animalFamilyCtx = document.getElementById("animalFamily");
+        var animalFamilyChart = new Chart(animalFamilyCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach(var item in Model.StatisticsAnimalFamily)
+                    {
+                        <text>'@item.Name',</text>
+                    }
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        @foreach(var item in Model.StatisticsAnimalFamily)
+                        {
+                            <text>'@item.Frequency',</text>
+                        }
+                    ],
+                    backgroundColor: [
+                        @foreach (var item in Model.StatisticsAnimalFamily)
+                        {
+                            <text>'#' + Math.floor(Math.random() * 16777215).toString(16),</text>
+                        }
+                    ]
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+
+        // Animal Diagnosis
+        var animalDiagnosisCtx = document.getElementById("animalDiagnosis");
+        var animalDiagnosisChart = new Chart(animalDiagnosisCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach(var item in Model.StatisticsAnimalDiagnosis)
+                    {
+                        <text>'@item.Name',</text>
+                    }
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        @foreach(var item in Model.StatisticsAnimalDiagnosis)
+                        {
+                            <text>'@item.Frequency',</text>
+                        }
+                    ],
+                    backgroundColor: [
+                        @foreach (var item in Model.StatisticsAnimalDiagnosis)
+                        {
+                            <text>'#' + Math.floor(Math.random() * 16777215).toString(16),</text>
+                        }
+                    ]
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+
+        // Visits
+        var visitsCtx = document.getElementById("visits");
+        var visitsChart = new Chart(visitsCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    @foreach(var item in Model.StatisticsVisits)
+                    {
+                        <text>'@item.DateTime.ToShortDateString()',</text>
+                    }
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        @foreach(var item in Model.StatisticsVisits)
+                        {
+                            <text>'@item.Frequency',</text>
+                        }
+                    ],
+                    backgroundColor: [
+                        @foreach (var item in Model.StatisticsAnimalDiagnosis)
+                        {
+                            <text>'#' + Math.floor(Math.random() * 16777215).toString(16),</text>
+                        }
+                    ]
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+    </script>
+
+}

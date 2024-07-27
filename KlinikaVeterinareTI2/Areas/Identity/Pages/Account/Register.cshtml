@@ -1,0 +1,92 @@
+﻿@page
+@model RegisterModel
+@using KlinikaVeterinareTI2.Utilities
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{ 
+    ViewData["Title"] = localizer["lblRegister"];
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+
+<div class="container">
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">@ViewData["Title"]!</h1>
+                        </div>
+                        <form class="user" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input asp-for="Input.FirstName" class="form-control form-control-user" id="exampleFirstName" placeholder="@localizer["lblFirstName"]">
+                                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input asp-for="Input.LastName" class="form-control form-control-user" id="exampleLastName" placeholder="@localizer["lblLastName"]">
+                                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input asp-for="Input.Birthday" class="form-control form-control-user" />
+                                <span asp-validation-for="Input.Birthday" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <select id="inputState" asp-for="Input.Gender" class="form-control" style="border-radius:10rem">
+                                    <option selected>@localizer["lblGender"]</option>
+                                    <option value="@StaticDetails.Male">@StaticDetails.Male</option>
+                                    <option value="@StaticDetails.Female">@StaticDetails.Female</option>
+                                    <option value="@StaticDetails.Other">@StaticDetails.Other</option>
+                                </select>
+                                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input asp-for="Input.PhoneNo" class="form-control form-control-user" placeholder="@localizer["lblPhoneNo"]" />
+                                <span asp-validation-for="Input.PhoneNo" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input asp-for="Input.Email" class="form-control form-control-user" placeholder="@localizer["lblEmail"]" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input asp-for="Input.Password" class="form-control form-control-user" id="exampleInputPassword" placeholder="@localizer["lblPassword"]" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input asp-for="Input.ConfirmPassword" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="@localizer["lblConfirmPassword"]" />
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-user btn-block">@localizer["btnRegister"]</button>
+                            @*<hr>
+        <a href="index.html" class="btn btn-google btn-user btn-block">
+            <i class="fab fa-google fa-fw"></i> Register with Google
+        </a>
+        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+            <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+        </a>*@
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">@localizer["lblAccount"]!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

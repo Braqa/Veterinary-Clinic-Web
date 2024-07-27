@@ -1,0 +1,93 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    ViewData["Title"] = "Home Page";
+}
+<!-- Custom styles for this template -->
+<link href="~/css/new-age.css" rel="stylesheet">
+@*<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">*@
+<link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+
+<header class="masthead">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 my-auto">
+                <div class="header-content mx-auto">
+                    <h1 class="mb-5">@localizer["lblTitle"]!</h1>
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline btn-xl js-scroll-trigger">@localizer["lblContact"]!</a>
+                </div>
+            </div>
+            <div class="col-lg-5 my-auto">
+                <img class="bcg_pic_1" src="~/images/vet_dog_bcg.png" alt="First Pic Background">
+                @*<div class="device-container">
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<section class="features" id="features">
+    <div class="container">
+        <div class="section-heading text-center">
+            <h2>@localizer["lblServices"]!</h2>
+            @*<p class="text-muted">Check out what you can do with this app theme!</p>*@
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-12 my-auto">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="feature-item">
+                                <img src="~/images/doc1.png" />
+                                <h3>Veterinaret dhe Tekniket</h3>
+                                <p class="text-muted">Te pergaditur profesionalisht dhe me eksperience ne fushen e veterinarise</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="feature-item">
+                                <img src="~/images/cavine.png" />
+                                <h3>Trajtimi</h3>
+                                <p class="text-muted">Bejme te gjitha trajtimet bashkohore ne klinike</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="feature-item">
+                                <img src="~/images/dog.png" />
+                                <h3>Kafshet</h3>
+                                <p class="text-muted">Perkujdesemi per te gjitha llojet e kafsheve</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="feature-item">
+                                <img src="~/images/food.png" />
+                                <h3>Gjesende per Kafshe</h3>
+                                <p class="text-muted">Ofrojme ushqime dhe gjera te ndryshme per kafshe</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="cta-content">
+        <div class="container d-flex">
+            <div>
+                <h2>Krijo llogari<br>Perfito Shërbime!</h2>
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline btn-xl js-scroll-trigger">@localizer["lblRegister"]!</a>
+            </div>
+            <div>
+                <img class="dog_vet_fun" src="~/images/dog_cat_mouse_bcg.png" alt="Vet Animals">
+            </div>
+        </div>
+    </div>
+    @*<div class="overlay"></div>*@
+</section>
+
